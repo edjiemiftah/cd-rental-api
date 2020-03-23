@@ -14,3 +14,7 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+$router->get('/stocks', 'StockController@index');
+$router->post('/stocks', 'StockController@store');
+$router->get('/stocks/{id}', 'StockController@show');
+$router->put('/stocks/{id}', 'StockController@update');
