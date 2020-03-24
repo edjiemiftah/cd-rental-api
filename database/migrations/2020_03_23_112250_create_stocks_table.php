@@ -18,7 +18,7 @@ class CreateStocksTable extends Migration
             $table->string('title', 100);
             $table->float('rate', 8, 2);
             $table->string('category', 50);
-            $table->integer('quantity', 2);
+            $table->unsignedInteger('quantity');
             $table->timestamps();
         });
     }
