@@ -16,13 +16,14 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('member_id');
+            $table->unsignedBigInteger('stock_id');
             $table->date('rent_date');
             $table->date('return_date')->nullable();
-            $table->enum('order_status', ['NEW', 'RENEW', 'COMPLETE', 'OUTDATE'])->default('NEW');
-            $table->date('renewal_date')->nullable();
+            $table->enum('order_status', ['NEW', 'COMPLETE', 'OUTDATE'])->default('NEW');
             $table->timestamps();
 
             $table->foreign('member_id')->references('id')->on('members');
+            $table->foreign('stock_id')->references('id')->on('stocks');
         });
     }
 
