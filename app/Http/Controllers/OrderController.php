@@ -13,16 +13,16 @@ class OrderController extends Controller
 {
     // New rent order
     public function new(Request $request) {
+        $this->validate($request, [
+            'stock_id'  => 'required',
+            'member_id' => 'required'
+        ]);
         $stock_id = $request->input('stock_id');
         $member_id = $request->input('member_id');
-        // Validate
-        if(!$stock_id && !$member_id) {
-            return response()->json(['success' => false, 'message' => 'Please complete your payloads.'], 400);
-        }
         // Check stock availability
         $stock = Stock::find($stock_id);
         if ($stock->quantity == 0) {
-            return response()->json(['success' => false, 'message' => 'Out of stock'], 102);
+            return response()->json(['status' => 'error', 'message' => 'Out of stock'], 102);
         } else {
             $currentStock = $stock->quantity;
             DB::beginTransaction();
@@ -40,27 +40,28 @@ class OrderController extends Controller
                 $stock->quantity = $currentStock - 1;
                 $stock->save();
                 DB::commit();
-                return response()->json(['success' => true, 'statusCode' => 200, 'message' => 'New rent order has been saved.', 'order_id' => $order_id]);
+                return response()->json(['status' => 'success', 'message' => 'New rent order has been saved.', 'order_id' => $order_id], 200);
             } catch(Exception $e) {
                 DB::rollback();
-                return response()->json(['success' => false, 'statusCode' => 400, 'message' => 'Failed to save new rent order. ' . $e]);
+                return response()->json(['status' => 'error', 'message' => 'Failed to save new rent order. ' . $e], 400);
             }
         }
     }
 
     // Return rent (finish rent) with payment
     public function complete(Request $request) {
+        $this->validate($request, [
+            'order_id'  => 'required'
+        ]);
         $order_id = $request->input('order_id');
-
-        // Validate
-        if(!$order_id) {
-            return response()->json(['success' => false, 'message' => 'Please complete your payloads.'], 400);
-        }
 
         // Check Order status
         $order = Order::find($order_id);
-        if ($order && $order->order_status == 'COMPLETE') {
-            return response()->json(['success' => false, 'message' => 'This order was completed.'], 400);
+        if (!$order) {
+            return response()->json(['status' => 'error', 'message' => 'Order not found.'], 404);
+        }
+        if ($order->order_status == 'COMPLETE') {
+            return response()->json(['status' => 'error', 'message' => 'This order was completed.'], 400);
         }
 
         $rent_date = new Carbon($order->rent_date);
@@ -93,10 +94,10 @@ class OrderController extends Controller
                 $stock->save();
 
                 DB::commit();
-                return response()->json(['success' => true, 'message' => 'Payment success, stock availability has been updated.', 'payment_id' => $payment_id], 200);
+                return response()->json(['status' => 'success', 'message' => 'Payment success, stock availability has been updated.', 'payment_id' => $payment_id], 200);
             } catch(Exception $e) {
                 DB::rollback();
-                return response()->json(['success' => false, 'message' => 'Failed to save new rent order. ' . $e], 400);
+                return response()->json(['status' => 'error', 'message' => 'Failed to save new rent order. ' . $e], 400);
             }
         }
     }
