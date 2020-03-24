@@ -18,3 +18,6 @@ $router->get('/stocks', 'StockController@index');
 $router->post('/stocks', 'StockController@store');
 $router->get('/stocks/{id}', 'StockController@show');
 $router->put('/stocks/{id}', 'StockController@update');
+
+$router->post('/rent/new', 'OrderController@new');
+$router->post('/rent/return', 'OrderController@complete');
