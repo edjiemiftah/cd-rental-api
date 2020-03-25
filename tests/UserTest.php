@@ -106,4 +106,17 @@ class UserTest extends TestCase
             'message'
         ]);
     }
+    public function testShouldProcessRentReturn() {
+        $params = [
+            'order_id' => 3
+        ];
+        $this->post('/rent/return', $params);
+        $this->seeInDatabase('orders_payments', $params);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure([
+            'status',
+            'message',
+            'payment_id'
+        ]);
+    }
 }

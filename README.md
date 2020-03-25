@@ -1,24 +1,88 @@
-# Lumen PHP Framework
+# API for CD Rental Management System
+What's included:
+* CRUD Stock
+* Order/Rent Price Calculation
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+## Table of Contents
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+* [Installation](#installation)
+* [Usage](#usage)
+* [Creator](#creator)
 
-## Official Documentation
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+## Installation
 
-## Contributing
+1. Clone this repository
+``` bash
+# Open your terminal and run this script
+$ git clone https://github.com/edjiemiftah/cd-rental-api.git
+```
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Go to cd-rental-api folder and install app's dependencies
+``` bash
+# install app's dependencies
+$ composer install
 
-## Security Vulnerabilities
+```
+3. Create database and copy file ".env.example", and change its name to ".env".
+Then in file ".env" complete this database configuration:
+* DB_CONNECTION=mysql
+* DB_HOST=127.0.0.1
+* DB_PORT=3306
+* DB_DATABASE=yourdatabasename
+* DB_USERNAME=yourdatabaseuser
+* DB_PASSWORD=yourdatabaseuserpassword
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+4. Run database migration and seed
+``` bash
+# run database migration and seed
+$ php artisan migrate:refresh --seed
 
-## License
+```
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Usage
+
+1. Start the server
+``` bash
+# start local server
+$ php -S localhost:8000 -t public
+```
+
+2. Use Postman to check these API endpoints
+``` bash
+# get all stock list
+GET http://localhost:8000/stocks
+
+# insert new stock with parameters
+# title (String)
+# rate (Number like price)
+# category (String)
+# quantity (Number)
+POST http://localhost:8000/stocks
+
+# get specific stock data
+GET http://localhost:8000/stocks/{id}
+
+# update stock
+# quantity (Number)
+PUT http://localhost:8000/stocks/{id}
+
+# submit rent order
+# stock_id
+# member_id
+POST http://localhost:8000/rent
+
+# process rent return
+# order_id
+POST http://localhost:8000/rent/return
+
+```
+``` bash
+# run unit test
+$ php vendor/bin/phpunit
+```
+
+## Creator
+
+**Zaini Miftah**
+<https://github.com/edjiemiftah>

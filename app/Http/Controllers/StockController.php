@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Stock;
 use Carbon\Carbon;
+use DB;
 
 class StockController extends Controller
 {
