@@ -77,12 +77,14 @@ POST http://localhost:8000/rent
 POST http://localhost:8000/rent/return
 
 ```
+
+3. To run unit testing, go to directory and run this command:
 ``` bash
-# run unit test
-$ php vendor/bin/phpunit
+$ vendor/bin/phpunit
 ```
 
 ## Creator
 
 **Zaini Miftah**
+
 <https://github.com/edjiemiftah>
