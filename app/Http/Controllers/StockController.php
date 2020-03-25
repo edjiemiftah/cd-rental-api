@@ -33,7 +33,8 @@ class StockController extends Controller
         
         try {
             $stock->save();
-            return response()->json(['status' => 'success', 'message' => 'New stock has been saved'], 200);
+            $stock_id = DB::getPdo()->lastInsertId();
+            return response()->json(['status' => 'success', 'message' => 'New stock has been saved', 'stock_id' => $stock_id], 200);
         } catch(Exception $e) {
             return response()->json(['status' => 'error', 'message' => 'Failed to save new stock. ' . $e], 400);
         }

@@ -106,6 +106,17 @@ class UserTest extends TestCase
             'message'
         ]);
     }
+    public function testShouldReturnOrderNotFound() {
+        $params = [
+            'order_id' => 13
+        ];
+        $this->post('/rent/return', $params);
+        $this->seeStatusCode(404);
+        $this->seeJsonStructure([
+            'status',
+            'message'
+        ]);
+    }
     public function testShouldProcessRentReturn() {
         $params = [
             'order_id' => 3

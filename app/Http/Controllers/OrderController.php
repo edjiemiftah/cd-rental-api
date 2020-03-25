@@ -21,6 +21,9 @@ class OrderController extends Controller
         $member_id = $request->input('member_id');
         // Check stock availability
         $stock = Stock::find($stock_id);
+        if (!$stock) {
+            return response()->json(['status' => 'error', 'message' => 'Order not found'], 404);
+        }
         if ($stock->quantity == 0) {
             return response()->json(['status' => 'error', 'message' => 'Out of stock'], 102);
         } else {
