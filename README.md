@@ -54,26 +54,31 @@ $ php -S localhost:8000 -t public
 GET http://localhost:8000/stocks
 
 # insert new stock with parameters
-# title (String)
-# rate (Number like price)
-# category (String)
-# quantity (Number)
+# List of payloads:
+# * title
+# * rate
+# * category
+# * quantity
 POST http://localhost:8000/stocks
+
 
 # get specific stock data
 GET http://localhost:8000/stocks/{id}
 
 # update stock
-# quantity (Number)
+# List of payloads:
+# * quantity
 PUT http://localhost:8000/stocks/{id}
 
 # submit rent order
-# stock_id
-# member_id
+# List of payloads:
+# * stock_id
+# * member_id
 POST http://localhost:8000/rent
 
 # process rent return
-# order_id
+# List of payloads:
+# * order_id
 POST http://localhost:8000/rent/return
 
 ```
